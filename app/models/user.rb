@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
                        length: { minimum: 2, maximum: 140 }
   validates :introduction, allow_blank: true,
                        length: { minimum: 2, maximum: 140 }
+  has_many :microposts
 end
