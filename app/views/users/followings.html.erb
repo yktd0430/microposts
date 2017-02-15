@@ -2,11 +2,9 @@
   <%= render 'user_info' %>
   <div class="col-md-8">
     <%= render 'follow_form' if logged_in? %>
-    <% if @user.microposts.any? %>
-      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      <h3>followings (<%= @users.count %>)</h3>
       <ol class="microposts">
-        <%= render @microposts %>
+        <%= render 'users' %>
       </ol>
-    <% end %>
   </div>
 </div>

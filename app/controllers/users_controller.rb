@@ -32,6 +32,16 @@ before_action :correct_user, only: [:edit, :update]
       render 'edit'
     end
   end
+    
+  def followings
+    @user = User.find(params[:id])
+    @users = @user.following_users
+  end
+  
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.follower_users
+  end
 
   private
   
