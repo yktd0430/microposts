@@ -10,7 +10,10 @@ class User < ActiveRecord::Base
                        length: { minimum: 2, maximum: 140 }
   validates :introduction, allow_blank: true,
                        length: { minimum: 2, maximum: 140 }
-  has_many :microposts
+  has_many :microposts, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_microposts, through: :favorites, source: :micropost
+  
   has_many :following_relationships, class_name:  "Relationship",
                                      foreign_key: "follower_id",
                                      dependent:   :destroy
@@ -35,5 +38,18 @@ class User < ActiveRecord::Base
   
   def feed_items
     Micropost.where(user_id: following_user_ids + [self.id])
+  end
+  
+  def favorite(micropost)
+    favorites.find_or_create_by(micropost_id: micropost.id)
+  end
+  
+  def unfavorite(micropost)
+    favorite = favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
+  end
+  
+  def favorite?(micropost)
+    favorite_microposts.include?(micropost)
   end
 end

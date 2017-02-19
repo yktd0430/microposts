@@ -3,7 +3,17 @@ before_action :correct_user, only: [:edit, :update]
 
   def show
     @user = User.find(params[:id])
+    @title = 'Micropost'
+    @count = @user.microposts.count
     @microposts = @user.microposts.order(created_at: :desc)
+  end
+  
+  def favorites
+    @user = User.find(params[:id])
+    @title = 'Favorites'
+    @count = @user.favorite_microposts.count
+    @microposts = @user.favorite_microposts
+    render 'show'
   end
   
   def new
